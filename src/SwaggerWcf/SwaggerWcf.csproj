@@ -13,9 +13,11 @@
     <Version>1.2.17</Version>
     <AssemblyVersion>1.2.17.*</AssemblyVersion>
     <FileVersion>1.2.17.*</FileVersion>
-    <OutputPath>..\..\%28Stage%29\Bin\</OutputPath>
-    <DocumentationFile>..\..\%28Stage%29\Bin\net48\SwaggerWcf.xml</DocumentationFile>
+    <OutputPath>..\..\..\</OutputPath>
+    <DocumentationFile>..\..\..\SwaggerWcf.xml</DocumentationFile>
     <Authors>KornSW (feat. abelsilva)</Authors>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PackageId>$title$</PackageId>
     <PackageLicenseUrl>https://raw.githubusercontent.com/abelsilva/swaggerwcf/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/abelsilva/swaggerwcf</PackageProjectUrl>
