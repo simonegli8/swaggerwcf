@@ -166,10 +166,22 @@ namespace SwaggerWcf.Support
                 //find the WebGet/Invoke attributes, or skip if neither is present
                 WebGetAttribute wg = declaration.GetCustomAttribute<WebGetAttribute>();
                 WebInvokeAttribute wi = declaration.GetCustomAttribute<WebInvokeAttribute>();
-                if (wg == null && wi == null)
-                    continue;
+                OperationContractAttribute oc = declaration.GetCustomAttribute<OperationContractAttribute>();
 
-                string httpMethod = (wi == null) ? "GET" : wi.Method ?? "POST";
+                string httpMethod;
+                if (wg != null) {
+                  httpMethod = "GET";
+                }
+                else if (wi != null) {
+                  httpMethod = wi.Method;
+                }
+                else if (oc != null) {
+                  httpMethod = "POST";
+                }
+                else {
+                  continue;
+                }
+
                 string uriTemplate = GetUriTemplate(wi, wg, declaration);
 
                 bool wrappedRequest = IsRequestWrapped(wg, wi);
@@ -362,7 +374,9 @@ namespace SwaggerWcf.Support
 
         private string GetUriTemplate(WebInvokeAttribute wi, WebGetAttribute wg, MethodInfo declaration)
         {
-            return ((wi == null) ? wg.UriTemplate : wi.UriTemplate) ?? declaration.Name;
+            if (wi != null) return wi.UriTemplate;
+            if (wg != null) return wg.UriTemplate;
+            return declaration.Name;
         }
 
         private string RemoveParametersDefaultValuesFromUri(string uriTemplate)
