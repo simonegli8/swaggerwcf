@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel;
 using Newtonsoft.Json;
 using SwaggerWcf.Attributes;
 using SwaggerWcf.Configuration;
@@ -116,6 +117,7 @@ namespace SwaggerWcf.Support
             foreach (var ti in types)
             {
                 var da = ti.GetCustomAttribute<SwaggerWcfAttribute>();
+                var sa = ti.GetCustomAttribute<ServiceContractAttribute>();
 
                 if (service.Info is null)
                     service.Info = ti.GetServiceInfo();
@@ -131,7 +133,12 @@ namespace SwaggerWcf.Support
                 string basePath = null;
                 if (!useBasePathProperty)
                 {
-                    basePath = da.ServicePath;
+                    if (da != null) {
+                      basePath = da.ServicePath;
+                    }
+                    else {
+                      basePath = ti.Name;
+                    }
 
                     if (basePath != null && basePath.EndsWith("/"))
                         basePath = basePath.Substring(0, basePath.Length - 1);
@@ -164,8 +171,9 @@ namespace SwaggerWcf.Support
                 foreach (TypeInfo ti in types)
                 {
                     var da = ti.GetCustomAttribute<SwaggerWcfAttribute>();
-                    if (da == null || hiddenTags.Any(ht => ht == ti.AsType().Name))
-                        continue;
+                    var sa = ti.GetCustomAttribute<ServiceContractAttribute>();
+                    if ((da == null && sa == null) || hiddenTags.Any(ht => ht == ti.AsType().Name))
+                      continue;
 
                     yield return ti;
                 }
@@ -178,13 +186,21 @@ namespace SwaggerWcf.Support
             service.Paths = new List<Path>();
 
             var da = type.GetCustomAttribute<SwaggerWcfAttribute>();
-            if (da == null || hiddenTags.Any(ht => ht == type.Name))
-                return;
+            var sa = type.GetCustomAttribute<ServiceContractAttribute>();
+
+            if ((da == null && sa == null) || hiddenTags.Any(ht => ht == type.Name))
+              return;
 
             var mapper = new Mapper(hiddenTags, visibleTags);
 
-            if (string.IsNullOrWhiteSpace(service.BasePath))
+            if (string.IsNullOrWhiteSpace(service.BasePath)) {
+              if (da != null) {
                 service.BasePath = da.ServicePath;
+              }
+              else {
+                service.BasePath = type.Name;
+              }
+            }
 
             if (service.BasePath.EndsWith("/"))
                 service.BasePath = service.BasePath.Substring(0, service.BasePath.Length - 1);
