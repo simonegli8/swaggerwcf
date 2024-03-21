@@ -62,7 +62,7 @@ namespace SwaggerWcf.Support
 
         private static DefinitionProperty ProcessProperty(PropertyInfo propertyInfo, IList<string> hiddenTags,
                                                           Stack<Type> typesStack)
-        { 
+        {
             if (propertyInfo.GetCustomAttribute<SwaggerWcfHiddenAttribute>() != null
                 || propertyInfo.GetCustomAttributes<SwaggerWcfTagAttribute>()
                                .Select(t => t.TagName)
