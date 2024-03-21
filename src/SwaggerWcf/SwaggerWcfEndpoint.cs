@@ -44,6 +44,10 @@ namespace SwaggerWcf
         public static Func<string, List<string>, List<string>> FilterHiddenTags { get; set; } =
             (string path, List<string> hiddenTags) => hiddenTags;
 
+        public static void Configure(string title, string basePath) {
+          Configure(new Info { Title = title }, null, basePath);
+        }
+
         public static void Configure(Info info, SecurityDefinitions securityDefinitions = null, string basePath = null)
         {
             Info = info;
