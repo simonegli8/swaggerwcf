@@ -7,7 +7,6 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
-using System.Diagnostics;
 using SwaggerWcf.Models;
 using SwaggerWcf.Support;
 using System.Runtime.CompilerServices;
@@ -44,10 +43,6 @@ namespace SwaggerWcf
 
         public static Func<string, List<string>, List<string>> FilterHiddenTags { get; set; } =
             (string path, List<string> hiddenTags) => hiddenTags;
-
-        public static void Configure(string title, string basePath) {
-          Configure(new Info { Title = title }, null, basePath);
-        }
 
         public static void Configure(Info info, SecurityDefinitions securityDefinitions = null, string basePath = null)
         {
