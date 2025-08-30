@@ -8,6 +8,8 @@ With an API described in Swagger you can use multiple Swagger tools like client 
 
 This project is a fork of [abelsilva/swaggerwcf](https://github.com/abelsilva/swaggerwcf) which has started as a fork from [superstator/Swaggeratr](https://github.com/superstator/Swaggeratr) to implement version 2.0 of Swagger.
 
+
+
 ## Getting Started
 
 ### Step 1: Install KornSW.SwaggerWcf package (fork)
