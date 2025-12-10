@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EstrellasDeEsperanza.SwaggerWcf</id>
+    <version>999.0.0-localbuild</version>
+    <title>EstrellasDeEsperanza.SwaggerWcf (fork)</title>
+    <authors>Simon Egli, KornSW, abelsilva</authors>
+    <owners>Simon Egli, KornSW, abelsilva</owners>
+    <copyright>Simon Egli, KornSW, abelsilva</copyright>
+    <description>Swagger for WCF (fork by Estrellas de Esperanza)</description>
+    <tags>swagger wcf .net core c# openapi</tags>
+    <!-- https://spdx.org/licenses/ -->
+    <license type="expression">Apache-2.0</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>PackageIcon.png</icon>
+    <projectUrl>https://github.com/KornSW/swaggerwcf</projectUrl>
+    <dependencies>
+      <group targetFramework=".NETFramework4.8">
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
+    <file src="PackageIcon.png" target="" />
+    <!-- .NET 4.8 -->
+    <file src="dist\bin-net48\SwaggerWcf.dll" target="lib/net48" />
+    <file src="dist\bin-net48\SwaggerWcf.xml" target="lib/net48" />
+    <file src="dist\bin-net48\SwaggerWcf.pdb" target="lib/net48" />
+  </files>
+</package>

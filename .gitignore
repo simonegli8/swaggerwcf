@@ -155,3 +155,6 @@ $RECYCLE.BIN/
 /src/SampleService/obj
 /(Vendor)/NuGet/
 /(Stage)/
+
+/dotnet/dist
+/dotnet/vendor/nuget/
