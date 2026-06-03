@@ -51,7 +51,8 @@ namespace SwaggerWcf.Support
                   .Where(type => markedType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
                   .ToList();
 
-                serviceType = allTypes.Except(allTypes.Select(type => type.BaseType)).Single();
+                serviceType = allTypes.Except(allTypes.Select(type => type.BaseType)).FirstOrDefault();
+                if (serviceType is null) return new Path[0];
 
                 types = new List<Type> { markedType };
             }
