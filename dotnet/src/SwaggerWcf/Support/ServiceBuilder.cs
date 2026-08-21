@@ -157,7 +157,9 @@ namespace SwaggerWcf.Support
         {
             var windowsUri = "file:///" + Environment.GetFolderPath(Environment.SpecialFolder.Windows).Replace('\\','/');
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => !a.IsDynamic && !a.CodeBase.StartsWith(windowsUri, StringComparison.OrdinalIgnoreCase));
+                .Where(a => !a.IsDynamic && 
+                    !a.CodeBase.StartsWith(windowsUri, StringComparison.OrdinalIgnoreCase) || 
+                    a.CodeBase.StartsWith(windowsUri+"/TEMP"));
 
             foreach (var assembly in assemblies)
             {
@@ -182,7 +184,7 @@ namespace SwaggerWcf.Support
                 {
                     var da = ti.GetCustomAttribute<SwaggerWcfAttribute>();
                     var sa = ti.GetCustomAttribute<ServiceContractAttribute>();
-                    if ((da == null && sa == null) || hiddenTags.Any(ht => ht == ti.AsType().Name))
+                    if (da == null || sa == null || hiddenTags.Any(ht => ht == ti.AsType().Name))
                       continue;
 
                     yield return ti;
