@@ -109,8 +109,10 @@ namespace SwaggerWcf.Support
         {
             service.Paths = new List<Path>();
 
-            var types = GetAssemblyTypes(hiddenTags);
-            var useBasePathProperty = types.Select(t => t.GetCustomAttribute<SwaggerWcfAttribute>().ServicePath)
+            var types = GetAssemblyTypes(hiddenTags)
+                .ToList();
+            var useBasePathProperty = types.Select(t => t.GetCustomAttribute<SwaggerWcfAttribute>()?.ServicePath)
+                                   .Where(p => p is not null)
                                    .Distinct()
                                    .Count() == 1;
             
@@ -153,26 +155,36 @@ namespace SwaggerWcf.Support
 
         private static IEnumerable<TypeInfo> GetAssemblyTypes(IList<string> hiddenTags)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var windowsUri = "file:///" + Environment.GetFolderPath(Environment.SpecialFolder.Windows).Replace('\\','/');
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.IsDynamic && 
+                    !a.CodeBase.StartsWith(windowsUri, StringComparison.OrdinalIgnoreCase) || 
+                    a.CodeBase.StartsWith(windowsUri+"/TEMP"));
 
             foreach (var assembly in assemblies)
             {
                 IEnumerable<TypeInfo> types;
+                IEnumerable<Type> rawtypes;
                 try
                 {
-                    types = assembly.DefinedTypes;
+
+                    rawtypes = assembly.GetTypes();
                 }
-                catch (Exception)
+                catch (ReflectionTypeLoadException ex)
                 {
-                    // ignore assembly and continue
+                    rawtypes = ex.Types.Where(t => t != null);
+                    
+                } catch (Exception)
+                {
                     continue;
                 }
+                types = rawtypes.Select(t => t.GetTypeInfo());
 
                 foreach (TypeInfo ti in types)
                 {
                     var da = ti.GetCustomAttribute<SwaggerWcfAttribute>();
                     var sa = ti.GetCustomAttribute<ServiceContractAttribute>();
-                    if ((da == null && sa == null) || hiddenTags.Any(ht => ht == ti.AsType().Name))
+                    if (da == null || sa == null || hiddenTags.Any(ht => ht == ti.AsType().Name))
                       continue;
 
                     yield return ti;

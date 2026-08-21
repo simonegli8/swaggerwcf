@@ -1,3 +1,5 @@
+using SwaggerWcf.Attributes;
+using SwaggerWcf.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,8 +7,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using SwaggerWcf.Attributes;
-using SwaggerWcf.Models;
 
 namespace SwaggerWcf.Support
 {
@@ -236,11 +236,10 @@ namespace SwaggerWcf.Support
 
         public static string GetEnumDescription(Enum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            var fi = value.GetType().GetField(value.ToString(), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi?.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-            if (attributes.Length > 0)
+            if (attributes is not null && attributes.Length > 0)
             {
                 return attributes[0].Description;
             }
