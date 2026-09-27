@@ -3,6 +3,8 @@
         <TargetFramework>net48</TargetFramework>
         <LangVersion>14</LangVersion>
         <Nullable>disable</Nullable>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>SwaggerWcf.snk</AssemblyOriginatorKeyFile>
         <AssemblyTitle>KornSW.SwaggerWcf (fork)</AssemblyTitle>
         <Company>KornSW (feat. abelsilva)</Company>
         <Product>KornSW.SwaggerWcf (fork)</Product>
@@ -10,9 +12,9 @@
         <Copyright>Copyright © KornSW (feat. abelsilva)</Copyright>
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
         <Deterministic>false</Deterministic>
-        <Version>1.6.1-localbuild</Version>
-        <AssemblyVersion>1.6.1.*</AssemblyVersion>
-        <FileVersion>1.6.1.*</FileVersion>
+        <Version>1.6.2</Version>
+        <AssemblyVersion>1.6.2.*</AssemblyVersion>
+        <FileVersion>1.6.2.*</FileVersion>
         <DocumentationFile>..\..\dist\bin-net48\SwaggerWcf.xml</DocumentationFile>
         <OutputPath>..\..\dist\</OutputPath>
         <DebugType>embedded</DebugType>
