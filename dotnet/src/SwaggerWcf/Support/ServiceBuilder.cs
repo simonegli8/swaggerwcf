@@ -158,8 +158,8 @@ namespace SwaggerWcf.Support
             var windowsUri = "file:///" + Environment.GetFolderPath(Environment.SpecialFolder.Windows).Replace('\\','/');
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => !a.IsDynamic && 
-                    !a.CodeBase.StartsWith(windowsUri, StringComparison.OrdinalIgnoreCase) || 
-                    a.CodeBase.StartsWith(windowsUri+"/TEMP"));
+                    (!a.CodeBase.StartsWith(windowsUri, StringComparison.OrdinalIgnoreCase) || 
+                    a.CodeBase.StartsWith(windowsUri+"/TEMP")));
 
             foreach (var assembly in assemblies)
             {
@@ -167,7 +167,6 @@ namespace SwaggerWcf.Support
                 IEnumerable<Type> rawtypes;
                 try
                 {
-
                     rawtypes = assembly.GetTypes();
                 }
                 catch (ReflectionTypeLoadException ex)
